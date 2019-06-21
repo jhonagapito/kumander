@@ -1,3 +1,7 @@
+## Kumander
+
+This is a pain in the ass application that micro-manages your budgeting for you. Perfect for those with spending problem that burns cash more than they earn. There will be 3 levels of Pain-in-the-Assness, depending on how hopeless the user is.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
