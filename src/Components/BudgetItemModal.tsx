@@ -6,22 +6,19 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
 type ModalProps = {
     modal: boolean;
     toggle: () => void;
+    saveBudgetItem: (item: System.BudgetItem) => void;
 };
 
-type BudgetItem = {
-    itemType: string;
-    itemName: string;
-    itemAmount: number;
-}
+
 
 const BudgetItemModal : React.FC<ModalProps> = (props: ModalProps) => {
-    const [inputs, setInputs] = useState<BudgetItem>({ itemType: "", itemName: "", itemAmount: 0 });
+    const [inputs, setInputs] = useState<System.BudgetItem>({ itemType: "", itemName: "", itemAmount: 0 });
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         if(e) {
             e.preventDefault();
-            alert(JSON.stringify({...inputs}));
-            
+            props.saveBudgetItem(inputs);
+            props.toggle();
         }
     }
 
