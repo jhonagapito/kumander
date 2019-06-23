@@ -34,8 +34,20 @@ const Budget : React.FC = () => {
 
     const handleSaveBudgetItem = (item: System.BudgetItem) => {
         setBudgetItems([...budgetItems, item as System.BudgetItem]);
+        console.log(budgetItems);
     }
 
+    const getMaxMount = () => {
+        return budgetItems.reduce((max, a) => a.itemAmount > max ? a.itemAmount : max, budgetItems[0].itemAmount);
+    }
+
+    const getTotalExpenses = () => {
+        return budgetItems.reduce((total, item) => (item.itemType === "Savings" || item.itemType === "Expense") ? total += item.itemAmount : total, 0);
+    }
+
+    const getTotalIncome = () => {
+        return budgetItems.reduce((total, item) => (item.itemType === "Income") ? total += item.itemAmount : total, 0);
+    }
     return (
         <div className="card shadow mb-4">
             <div className="card-header py-3 budget-header-label">
@@ -54,7 +66,7 @@ const Budget : React.FC = () => {
                 {
                     budgetItems &&
                     budgetItems.map((budgetItem, index) => (
-                        <BudgetItem key={index} item={budgetItem} />
+                        <BudgetItem key={index} item={budgetItem} maxAmount={getMaxMount()} />
                     ))
                 }
                 
@@ -63,7 +75,7 @@ const Budget : React.FC = () => {
                     <div className="col-lg-6">
                         <div className="card bg-danger text-white shadow">
                             <div className="card-body">
-                            10,000
+                            { getTotalExpenses().toLocaleString(navigator.language, {minimumFractionDigits: 2}) }
                             <div className="text-white-50 small">Total Expenses</div>
                             </div>
                         </div>
@@ -71,7 +83,7 @@ const Budget : React.FC = () => {
                     <div className="col-lg-6">
                         <div className="card bg-success text-white shadow">
                             <div className="card-body">
-                            10,000
+                            { getTotalIncome().toLocaleString(navigator.language, {minimumFractionDigits: 2}) }
                             <div className="text-white-50 small">Total Income</div>
                             </div>
                         </div>

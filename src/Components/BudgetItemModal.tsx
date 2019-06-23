@@ -12,24 +12,34 @@ type ModalProps = {
 
 
 const BudgetItemModal : React.FC<ModalProps> = (props: ModalProps) => {
-    const [inputs, setInputs] = useState<System.BudgetItem>({ itemType: "", itemName: "", itemAmount: 0 });
+    const [inputs, setInputs] = useState<System.BudgetItem>({ itemType: "Income", itemName: "", itemAmount: 0 });
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         if(e) {
             e.preventDefault();
             props.saveBudgetItem(inputs);
-            props.toggle();
+            handleToggle();
         }
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.persist();
-        setInputs(inputs => ({...inputs, [e.target.name] : e.target.value }));
+        if (e.target.name === "itemAmount") {
+            setInputs(inputs => ({...inputs, ["itemAmount"] : +e.target.value }));
+        }
+        else {
+            setInputs(inputs => ({...inputs, [e.target.name] : e.target.value }));
+        }
+    }
+
+    const handleToggle = () => {
+        props.toggle();
+        setInputs({ itemType: "Income", itemName: "", itemAmount: 0 });
     }
 
     return (
-        <Modal isOpen={props.modal} toggle={props.toggle}>
-            <ModalHeader toggle={props.toggle}>Budget Item</ModalHeader>
+        <Modal isOpen={props.modal} toggle={handleToggle}>
+            <ModalHeader toggle={handleToggle}>Budget Item</ModalHeader>
             <ModalBody>
             <Form>
                 <FormGroup>
@@ -52,7 +62,7 @@ const BudgetItemModal : React.FC<ModalProps> = (props: ModalProps) => {
             </ModalBody>
             <ModalFooter>
                 <Button color="primary" onClick={handleSubmit}>Save</Button>{' '}
-                <Button color="secondary" onClick={props.toggle}>Cancel</Button>
+                <Button color="secondary" onClick={handleToggle}>Cancel</Button>
             </ModalFooter>
         </Modal>
     );
