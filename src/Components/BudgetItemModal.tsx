@@ -3,15 +3,11 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 
-type ModalProps = {
-    modal: boolean;
-    toggle: () => void;
-    saveBudgetItem: (item: System.BudgetItem) => void;
-};
 
 
 
-const BudgetItemModal : React.FC<ModalProps> = (props: ModalProps) => {
+
+const BudgetItemModal : React.FC<System.ModalProps> = (props: System.ModalProps) => {
     const [inputs, setInputs] = useState<System.BudgetItem>({ itemType: "Income", itemName: "", itemAmount: 0 });
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {

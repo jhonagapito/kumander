@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,8 +25,14 @@ const initialData: System.BudgetItem[] = [
 
 const Budget : React.FC = () => {
 
+    const storageKey: string = "_budget_list";
     const [openModal, toggleModal] = useState(false);
-    const [budgetItems, setBudgetItems] = useState(initialData);
+    const [budgetItems, setBudgetItems] = useState(JSON.parse(localStorage.getItem(storageKey) || '[]') as System.BudgetItem[]);
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, JSON.stringify(budgetItems));
+        console.log(budgetItems);
+    });
 
     const handleToggleModal = () => {
         toggleModal(!openModal);
@@ -34,7 +40,6 @@ const Budget : React.FC = () => {
 
     const handleSaveBudgetItem = (item: System.BudgetItem) => {
         setBudgetItems([...budgetItems, item as System.BudgetItem]);
-        console.log(budgetItems);
     }
 
     const getMaxMount = () => {
@@ -65,9 +70,20 @@ const Budget : React.FC = () => {
             <div className="card-body">
                 {
                     budgetItems &&
+                    budgetItems.length > 0 &&
                     budgetItems.map((budgetItem, index) => (
                         <BudgetItem key={index} item={budgetItem} maxAmount={getMaxMount()} />
                     ))
+                }
+
+                {
+                    budgetItems &&
+                    budgetItems.length === 0 &&
+                    <div className="row mb-1 budget-entry">
+                        <div className="col-lg-12">
+                            <strong>No Item</strong>
+                        </div>
+                    </div>
                 }
                 
                 

@@ -4,4 +4,10 @@ declare module System {
         itemName: string;
         itemAmount: number;
     };
+
+    type ModalProps = {
+        modal: boolean;
+        toggle: () => void;
+        saveBudgetItem: (item: System.BudgetItem) => void;
+    };
 }
