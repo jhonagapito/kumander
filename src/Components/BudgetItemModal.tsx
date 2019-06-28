@@ -3,10 +3,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 
-
-
-
-
 const BudgetItemModal : React.FC<System.ModalProps> = (props: System.ModalProps) => {
     const [inputs, setInputs] = useState<System.BudgetItem>({ itemType: "Income", itemName: "", itemAmount: 0 });
 

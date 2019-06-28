@@ -6,6 +6,7 @@ declare module System {
     };
 
     type ModalProps = {
+        budgetItem?: System.BudgetItem;
         modal: boolean;
         toggle: () => void;
         saveBudgetItem: (item: System.BudgetItem) => void;

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { v1 } from 'uuid';
 interface BudgetItemProps {
     item: System.BudgetItem,
     maxAmount: number
 }
 
 const BudgetItem : React.FC<BudgetItemProps> = (props: BudgetItemProps) => {
+    //const itemId: any = v1().replace(/-/g, '');
+    const [popoverOpen, setPopover] = useState(false);
 
     const getAmountPercentage = () => {
         const itemPercentage = ((props.item.itemAmount / props.maxAmount) * 100);
@@ -16,8 +23,20 @@ const BudgetItem : React.FC<BudgetItemProps> = (props: BudgetItemProps) => {
         return amount.toLocaleString(navigator.language, {minimumFractionDigits: 2});
     }
 
+    const togglePopover = () => {
+        setPopover(!popoverOpen);
+    }
+    
+    const handleEdit = () => {
+        console.log('Edit Budget Item');
+    }
+
+    const handleDelete = () => {
+        console.log('Delete Budget Item');
+    }
+
     return (
-        <div className="row mb-1 budget-entry">
+        <div className="row mb-1 budget-entry" id={props.item.itemName.replace(/ /g, '')} onClick={togglePopover}>
             <div className="col-lg-6">
             { 
                 (props.item.itemType === 'Savings' || props.item.itemType === 'Expense') &&
@@ -40,6 +59,19 @@ const BudgetItem : React.FC<BudgetItemProps> = (props: BudgetItemProps) => {
                 </>
             }
             </div>
+
+            <Popover trigger="legacy" placement="bottom-end" isOpen={popoverOpen} target={props.item.itemName.replace(/ /g, '')} toggle={togglePopover}>
+                <PopoverHeader>{props.item.itemName}</PopoverHeader>
+                <PopoverBody>
+                <a href="#" className="btn btn-info btn-circle btn-sm" onClick={handleEdit}>
+                    <FontAwesomeIcon icon={faEdit} />
+                </a>
+                {' '}
+                <a href="#" className="btn btn-danger btn-circle btn-sm" onClick={handleDelete}>
+                <FontAwesomeIcon icon={faTrash} />
+                </a>
+                </PopoverBody>
+            </Popover>
         </div>
     );
 }
