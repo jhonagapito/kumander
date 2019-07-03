@@ -1,10 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
-    Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+    Form, FormGroup, Label, Input } from 'reactstrap';
+import { v1 } from 'uuid';
 
 
 const BudgetItemModal : React.FC<System.ModalProps> = (props: System.ModalProps) => {
-    const [inputs, setInputs] = useState<System.BudgetItem>({ itemType: "Income", itemName: "", itemAmount: 0 });
+    //states
+    const [inputs, setInputs] = useState<System.BudgetItem>({ itemId: v1(), itemType: "Income", itemName: "", itemAmount: 0 });
+
+    //methods
+    const intializeInputValue = () => {
+        console.log('intializeInputValue for Modal');
+        console.log(props.budgetItem);
+        if(props.budgetItem && props.budgetItem.itemId != "") {
+            return { 
+                itemId: props.budgetItem.itemId,
+                itemType: props.budgetItem.itemType, 
+                itemName: props.budgetItem.itemName, 
+                itemAmount: props.budgetItem.itemAmount 
+            };
+        } else {
+            return { itemId: v1(), itemType: "Income", itemName: "", itemAmount: 0 };
+        }
+    }
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         if(e) {
@@ -25,9 +43,15 @@ const BudgetItemModal : React.FC<System.ModalProps> = (props: System.ModalProps)
     }
 
     const handleToggle = () => {
-        props.toggle();
-        setInputs({ itemType: "Income", itemName: "", itemAmount: 0 });
+        props.toggle(); 
     }
+
+    //effects
+    useEffect(() => {
+        if(props.modal) {
+            setInputs(intializeInputValue());
+        }
+    }, [props.modal]);
 
     return (
         <Modal isOpen={props.modal} toggle={handleToggle}>

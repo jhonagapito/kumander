@@ -7,13 +7,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { v1 } from 'uuid';
 interface BudgetItemProps {
     item: System.BudgetItem,
-    maxAmount: number
+    maxAmount: number,
+    handleEdit: (item: System.BudgetItem) => void;
+    handleDelete: (itemId: string) => void;
 }
 
 const BudgetItem : React.FC<BudgetItemProps> = (props: BudgetItemProps) => {
-    //const itemId: any = v1().replace(/-/g, '');
+    //states
     const [popoverOpen, setPopover] = useState(false);
-
+    
+    //methods
     const getAmountPercentage = () => {
         const itemPercentage = ((props.item.itemAmount / props.maxAmount) * 100);
         return itemPercentage.toString() + '%';
@@ -29,10 +32,12 @@ const BudgetItem : React.FC<BudgetItemProps> = (props: BudgetItemProps) => {
     
     const handleEdit = () => {
         console.log('Edit Budget Item');
+        props.handleEdit(props.item);
     }
 
     const handleDelete = () => {
         console.log('Delete Budget Item');
+        props.handleDelete(props.item.itemId);
     }
 
     return (
