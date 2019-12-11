@@ -16,6 +16,7 @@ const Budget : React.FC = () => {
     //Methods
     const handleToggleModal = () => {
         toggleModal(!openModal);
+        setAddEditClicked(false);
     }
 
     const handleSaveBudgetItem = (item: System.BudgetItem) => {
@@ -39,7 +40,6 @@ const Budget : React.FC = () => {
     }
 
     const handleAddBudgetItem = () => {
-        console.log('handleAddBudgetItem Clicked');
         setAddEditClicked(true);
         setEditItem(null);
     }
