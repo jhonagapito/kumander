@@ -7,20 +7,21 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import Login from './Components/Login';
+import AuthRoute from './Components/AuthRoute';
 
 
 
 
 
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter basename="/">
         <Switch>
-          <Route path="/login"><Login/></Route>
-          <Route path="/"><App/></Route>
+          <Route path="/login"><Login/></Route>]
+          <AuthRoute path="/" Component={App} />
         </Switch>
-    </BrowserRouter>
+    </HashRouter>
     , document.body);
 
 // If you want your app to work offline and load faster, you can change
