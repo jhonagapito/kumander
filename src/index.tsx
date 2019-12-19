@@ -12,13 +12,10 @@ import Login from './Components/Login';
 import AuthRoute from './Components/AuthRoute';
 
 
-
-
-
 ReactDOM.render(
     <HashRouter basename="/">
         <Switch>
-          <Route path="/login"><Login/></Route>]
+          <Route path="/login" component={Login}></Route>
           <AuthRoute path="/" Component={App} />
         </Switch>
     </HashRouter>
